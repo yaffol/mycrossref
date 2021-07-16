@@ -10,8 +10,8 @@
              max-height="50px" max-width="72px" min-height="36px" min-width="72px"/>
       </a>
       <v-spacer/>
-      <login-button/>
       <language-menu/>
+      <login-button/>
     </v-app-bar>
   </div>
 
