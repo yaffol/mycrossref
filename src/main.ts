@@ -3,6 +3,12 @@ import App from './App.vue'
 import './registerServiceWorker'
 import vuetify from './plugins/vuetify'
 import VueCompositionAPI from '@vue/composition-api'
+import { inspect } from '@xstate/inspect'
+
+// TODO: consider wrapping this in a test for "DEV mode"
+inspect({
+  iframe: false
+})
 
 Vue.use(VueCompositionAPI)
 
