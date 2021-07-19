@@ -11,7 +11,7 @@
       </a>
       <v-spacer/>
       <language-menu/>
-      <login-button/>
+      <login-button :auth-machine="authMachine"/>
     </v-app-bar>
   </div>
 
@@ -24,6 +24,9 @@ import LoginButton from '@/components/LoginButton.vue'
 
 export default defineComponent({
   name: 'HeaderBar',
+  props: {
+    authMachine: Object
+  },
   components: { LoginButton, LanguageMenu }
 })
 </script>

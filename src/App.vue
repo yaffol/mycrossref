@@ -3,7 +3,7 @@
 
   <v-app>
     <nav-drawer v-model="drawer"/>
-    <header-bar></header-bar>
+    <header-bar :auth-machine="authMachine"></header-bar>
     <v-main>
       <v-toolbar dense dark color="secondary">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -28,10 +28,34 @@
 import { defineComponent } from '@vue/composition-api'
 import HeaderBar from '@/components/HeaderBar.vue'
 import NavDrawer from '@/components/NavDrawer.vue'
+import authenticationMachine from '@/statemachines/AuthenticationMachine'
+import { useInterpret, useActor } from 'xstate-vue2'
+
+interface StateMachine {
+  service:any,
+  state: ReturnType<typeof useActor>['state'],
+  send: any
+}
 
 export default defineComponent({
   name: 'App',
   components: { NavDrawer, HeaderBar },
+  setup () {
+    const authMachineService = useInterpret(
+      authenticationMachine,
+      { devTools: true },
+      (state) => {
+        // subscribes to state changes
+        console.log(state.value)
+      })
+    const { state, send } = useActor(authMachineService)
+    const authMachine: StateMachine = {
+      service: authMachineService,
+      state: state,
+      send: send
+    }
+    return { authMachine, state, send }
+  },
   data: () => ({
     drawer: false
   })
