@@ -1,31 +1,37 @@
-# mycrossref
+# MyCrossref
 
-## Project setup
+## Setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### I want to...
+
+#### run a hot-reloading dev server
+```docker-compose up```
+
+or
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### compile and minify for production
 ```
 npm run build
 ```
 
-### Run your unit tests
+### run unit tests
 ```
 npm run test:unit
 ```
 
-### Run your end-to-end tests
+### run end-to-end tests
 ```
 npm run test:e2e
 ```
 
-### Lints and fixes files
+### lint and fix syntax
 ```
 npm run lint
 ```
