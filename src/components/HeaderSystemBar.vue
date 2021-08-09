@@ -21,13 +21,14 @@
 import { defineComponent } from '@vue/composition-api'
 import LanguageMenu from '@/components/LanguageMenu.vue'
 import LoginButton from '@/components/LoginButton.vue'
+import SearchButton from '@/components/SearchButton.vue'
 
 export default defineComponent({
   name: 'HeaderBar',
   props: {
     authMachine: Object
   },
-  components: { LoginButton, LanguageMenu }
+  components: { SearchButton, LoginButton, LanguageMenu }
 })
 </script>
 

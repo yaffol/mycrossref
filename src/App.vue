@@ -5,7 +5,7 @@
     <nav-drawer v-model="drawer"/>
     <header-bar :auth-machine="authMachine"></header-bar>
     <v-main>
-      <v-toolbar dense dark color="secondary">
+      <v-toolbar dense dark :color="toolbarColour">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Home</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -25,15 +25,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import HeaderBar from '@/components/HeaderBar.vue'
 import NavDrawer from '@/components/NavDrawer.vue'
 import authenticationMachine from '@/statemachines/AuthenticationMachine'
 import { useInterpret, useActor } from 'xstate-vue2'
 
-interface StateMachine {
+// TODO: refine these types (no any)
+interface StateMachineService {
   service:any,
-  state: ReturnType<typeof useActor>['state'],
+  state: any,
   send: any
 }
 
@@ -49,12 +50,15 @@ export default defineComponent({
         console.log(state.value)
       })
     const { state, send } = useActor(authMachineService)
-    const authMachine: StateMachine = {
+    const authMachine: StateMachineService = {
       service: authMachineService,
       state: state,
       send: send
     }
-    return { authMachine, state, send }
+    const toolbarColour = computed(() => {
+      return authMachine.state.value.value === 'loggedIn' ? 'primary' : 'secondary'
+    })
+    return { authMachine, state, send, toolbarColour }
   },
   data: () => ({
     drawer: false
