@@ -16,12 +16,12 @@ stages:
   - get-version
   - unit-test
   - build
-  - integration-test
-  - deploy-stg
-  - deploy-sandbox
-  - deploy-production
   - semantic-release
-  - deploy-pages
+  #  - integration-test
+#  - deploy-stg
+#  - deploy-sandbox
+#  - deploy-production
+#  - deploy-pages
 
 unit test:
   image: node:lts-alpine
@@ -53,40 +53,7 @@ semantic-release:
     paths:
       - dist # artifact path must be /public for GitLab Pages to pick it up
   only:
-    - develop
-    - master
-
-build:
-  image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
-  stage: build
-  variables:
-    AWS_DEFAULT_PROFILE: staging
-  tags:
-    - aws
-    - crossref-portal
-#  services:
-#    - docker:dind
-  before_script:
-    - export APP_VERSION="$(cat VERSION.txt)"
-    - "[[ -z ${CI_PIPELINE_ID+x} ]] && export APP_VERSION=$CI_COMMIT_SHA"
-    - echo "APP_VERSION is ${APP_VERSION}"
-    - if [ -z "$APP_VERSION" ]; then echo "APP_VERSION is not defined, exiting."; exit 0; fi
-    - export SENTRY_URL_PREFIX="~${DEPLOY_PATH}"
-    - export SENTRY_RELEASE="${LIB_NAME}@${APP_VERSION}"
-  script:
-    - export SENTRY_LOG_LEVEL=debug
-    - npm ci
-    - npm run build:lib:standalone
-    - export VUE_PREFIX_CSS=true && npm run build:lib:standalone:prefixed-css
-    - mv "./dist-prefixed-css/${LIB_NAME}.prefixed.css" dist/
-  artifacts:
-    paths:
-      - dist # artifact path must be /public for GitLab Pages to pick it up
-  only:
-    - develop
-    - master
-    - /^yaffol/e2e-.*/
-    - cdelojo/fix-auth-redirect
+    - main
 
 integration-test:
   image: docker/compose
@@ -101,105 +68,7 @@ integration-test:
     - docker-compose -f docker-compose-integration-test.yml up --exit-code-from frontend-e2e-test
 
   only:
-    - master
-    - develop
-    - /^yaffol/e2e-.*/
-    - cdelojo/fix-auth-redirect
-
-pages: # the job must be named pages
-  image: node:lts-alpine
-  stage: deploy-pages
-  before_script:
-    - export APP_VERSION="$(cat VERSION.txt)"
-    - echo "APP_VERSION is ${APP_VERSION}"
-  script:
-    - npm ci
-    - npm run build
-    - mv public public-vue # GitLab Pages hooks on the public folder
-    - mv dist public # rename the dist folder (result of npm run build)
-    - echo "APP_VERSION is ${APP_VERSION}" > public/version.txt
-    # optionally, you can activate gzip support wih the following line:
-    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
-  artifacts:
-    paths:
-      - public # artifact path must be /public for GitLab Pages to pick it up
-  only:
-    - yaffol/issue#1084-run-integration-tests-in-ci
-
-# Build and deploy to staging CDN
-deploy-stg:
-  image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
-  stage: deploy-stg
-  variables:
-    AWS_DEFAULT_PROFILE: staging
-  tags:
-    - aws
-    - crossref-portal
-  services:
-    - docker:dind
-  before_script:
-    - export APP_VERSION="$(cat VERSION.txt)"
-    - export APP_VERSION_NAME="crossref-${APP_VERSION}"
-    - export DEPLOY_PATH="${CI_PROJECT_NAME}/${LIB_NAME}/${APP_VERSION}/"
-    - echo "APP_VERSION is ${APP_VERSION}"
-    - echo "APP_VERSION_NAME is ${APP_VERSION_NAME}"
-    - if [ -z "$APP_VERSION" ]; then echo "APP_VERSION is not defined, exiting."; exit 0; fi
-  script:
-    - aws s3 cp dist s3://$STAGING_S3_BUCKET/$DEPLOY_PATH --recursive --exclude "${DEPLOY_EXCLUDE_GLOB}" --include "${DEPLOY_INCLUDE_GLOB}"
-    - aws cloudfront create-invalidation --distribution-id $STAGING_CLOUDFRONT_DIST_ID --paths '/$CI_PROJECT_NAME/$LIB_NAME/*'
-  artifacts:
-    paths:
-      - dist # artifact path must be /public for GitLab Pages to pick it up
-  only:
-    - develop
-    - master
-    - alpha
-
-# Deploy to sandbox CDN
-deploy-sandbox:
-  image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
-  stage: deploy-production
-  variables:
-    AWS_DEFAULT_PROFILE: sandbox
-  tags:
-    - aws
-    - crossref-portal
-  before_script:
-    - export APP_VERSION="$(cat VERSION.txt)"
-    - export DEPLOY_PATH="${CI_PROJECT_NAME}/${LIB_NAME}/${APP_VERSION}/"
-    - echo "APP_VERSION is ${APP_VERSION}"
-    - if [ -z "$APP_VERSION" ]; then echo "APP_VERSION is not defined, exiting."; exit 0; fi
-  script:
-    - aws s3 cp dist s3://$SANDBOX_S3_BUCKET/$DEPLOY_PATH --recursive --exclude "${DEPLOY_EXCLUDE_GLOB}" --include "${DEPLOY_INCLUDE_GLOB}"
-#    - aws cloudfront create-invalidation --distribution-id $PROD_CLOUDFRONT_DIST_ID --paths '/$CI_PROJECT_NAME/$LIB_NAME/*'
-  artifacts:
-    paths:
-      - dist # artifact path must be /public for GitLab Pages to pick it up
-  only:
-    - master
-
-# Deploy to production CDN
-deploy-production:
-  image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
-  stage: deploy-production
-  variables:
-    AWS_DEFAULT_PROFILE: production
-  tags:
-    - aws
-    - crossref-portal
-  before_script:
-    - export APP_VERSION="$(cat VERSION.txt)"
-    - export DEPLOY_PATH="${CI_PROJECT_NAME}/${LIB_NAME}/${APP_VERSION}/"
-    - echo "APP_VERSION is ${APP_VERSION}"
-    - if [ -z "$APP_VERSION" ]; then echo "APP_VERSION is not defined, exiting."; exit 0; fi
-  script:
-    - aws s3 cp dist s3://$PRODUCTION_S3_BUCKET/$DEPLOY_PATH --recursive --exclude "${DEPLOY_EXCLUDE_GLOB}" --include "${DEPLOY_INCLUDE_GLOB}"
-    - aws cloudfront create-invalidation --distribution-id $PROD_CLOUDFRONT_DIST_ID --paths '/$CI_PROJECT_NAME/$LIB_NAME/*'
-  artifacts:
-    paths:
-      - dist # artifact path must be /public for GitLab Pages to pick it up
-  only:
-    - master
+    - main
 
 # Get current semantic version for release branches
 get-semantic-version:
@@ -207,9 +76,7 @@ get-semantic-version:
   stage: get-version
   only:
     refs:
-      - master
-      - alpha
-      - develop
+      - main
       - $MAINT_BRANCH_PATTERN
       - $PREREL_BRANCH_PATTERN
   script:
@@ -227,9 +94,7 @@ get-generic-version:
   stage: get-version
   except:
     refs:
-      - master
-      - alpha
-      - develop
+      - main
       - $MAINT_BRANCH_PATTERN
       - $PREREL_BRANCH_PATTERN
   script:
