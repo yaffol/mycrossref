@@ -55,21 +55,6 @@ semantic-release:
   only:
     - main
 
-integration-test:
-  image: docker/compose
-  stage: integration-test
-  services:
-    - docker:dind
-
-  before_script:
-    - docker info
-
-  script:
-    - docker-compose -f docker-compose-integration-test.yml up --exit-code-from frontend-e2e-test
-
-  only:
-    - main
-
 # Get current semantic version for release branches
 get-semantic-version:
   image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
