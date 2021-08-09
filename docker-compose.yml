@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  my-crossref:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: my-crossref
+    volumes:
+      - .:/app
+      - /app/node_modules
