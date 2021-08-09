@@ -9,6 +9,10 @@ export interface StateMachineService {
   send: any
 }
 
+export const useInspector = (): boolean => {
+  return process.env.NODE_ENV === 'development'
+}
+
 const interpretMachineToService = (machineDefinition: any) => {
   const interpretedMachine = useInterpret(
     machineDefinition,
