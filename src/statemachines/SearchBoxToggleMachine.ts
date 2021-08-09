@@ -1,4 +1,4 @@
-import { assign, createMachine, Sender } from 'xstate'
+import { assign, createMachine } from 'xstate'
 
 export type SearchBoxToggleMachineContext = {
   text: string
@@ -60,7 +60,7 @@ const searchBoxToggleMachine = createMachine<
     },
     {
       guards: {
-        searchQueryEmpty: (context, event) => {
+        searchQueryEmpty: (context) => {
           return typeof context.text !== 'string' || context.text.length < 1
         }
       }

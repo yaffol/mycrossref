@@ -30,8 +30,7 @@ import HeaderBar from '@/components/HeaderSystemBar.vue'
 import NavDrawer from '@/components/NavDrawer.vue'
 import authenticationMachine from '@/statemachines/AuthenticationMachine'
 import searchBoxToggleMachine from '@/statemachines/SearchBoxToggleMachine'
-import { useInterpret, useActor } from 'xstate-vue2'
-import { StateMachineService, interpretMachineToService } from '@/statemachines/utils'
+import { interpretMachineToService } from '@/statemachines/utils'
 import SearchButton from '@/components/SearchButton.vue'
 
 export default defineComponent({

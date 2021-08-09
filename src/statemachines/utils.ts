@@ -1,6 +1,4 @@
-import { createMachine, InterpreterOptions } from 'xstate'
 import { useActor, useInterpret } from 'xstate-vue2'
-import authenticationMachine from '@/statemachines/AuthenticationMachine'
 
 // TODO: refine these types (no any)
 export interface StateMachineService {
