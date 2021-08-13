@@ -14,6 +14,7 @@ variables:
   NODE_DOCKER_IMAGE: "node:16.6.2-alpine3.13"
 
 stages:
+  - build-ci-docker-image
   - get-version
   - unit-test
   - build
@@ -23,6 +24,18 @@ stages:
 #  - deploy-sandbox
 #  - deploy-production
 #  - deploy-pages
+
+build-ci-docker-image:
+  image: docker:19.03.12
+  stage: build-ci-docker-image
+  services:
+    - docker:19.03.12-dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -f Dockerfile.ci -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
 
 unit test:
   image: "$NODE_DOCKER_IMAGE"
