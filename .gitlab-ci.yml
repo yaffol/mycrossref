@@ -11,6 +11,7 @@ variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ''
+  NODE_DOCKER_IMAGE: "node:16.6.2-alpine3.13"
 
 stages:
   - get-version
@@ -24,13 +25,22 @@ stages:
 #  - deploy-pages
 
 unit test:
-  image: node:lts-alpine
+  image: "$NODE_DOCKER_IMAGE"
   stage: unit-test
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
     - npm ci
     - npm run test:unit
+
+
+build:
+  image: "$NODE_DOCKER_IMAGE"
+  stage: build
+  script:
+    - export APP_VERSION="$(cat VERSION.txt)"
+    - echo "APP_VERSION is ${APP_VERSION}"
+    - npm run build
 
 semantic-release:
   image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
