@@ -12,7 +12,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ''
   NODE_DOCKER_IMAGE: "node:16.6.2-alpine3.13"
-
+  CI_BUILD_IMAGE: $CI_REGISTRY_IMAGE/ci-build:$CI_COMMIT_REF_SLUG
 stages:
   - build-ci-docker-image
   - get-version
@@ -31,14 +31,14 @@ build-ci-docker-image:
   services:
     - docker:19.03.12-dind
   variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE/ci-build:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_BUILD_IMAGE
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -f Dockerfile.ci -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
 
 unit test:
-  image: "$NODE_DOCKER_IMAGE"
+  image: "$CI_BUILD_IMAGE"
   stage: unit-test
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
@@ -48,7 +48,7 @@ unit test:
 
 
 build:
-  image: "$NODE_DOCKER_IMAGE"
+  image: "$CI_BUILD_IMAGE"
   stage: build
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
