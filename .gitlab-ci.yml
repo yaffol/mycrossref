@@ -12,7 +12,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ''
   NODE_DOCKER_IMAGE: "node:16.6.2-alpine3.13"
-  CI_BUILD_IMAGE: $CI_REGISTRY_IMAGE/ci-build:$CI_COMMIT_REF_SLUG
+  CI_BUILD_IMAGE: "$CI_REGISTRY_IMAGE/ci-build:$CI_COMMIT_REF_SLUG"
 stages:
   - build-ci-docker-image
   - get-version
