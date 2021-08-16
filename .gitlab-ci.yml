@@ -51,11 +51,10 @@ unit test:
     # inherit all global cache settings
     <<: *global_cache
   stage: unit-test
-  before_script:
-  - npm ci --cache .npm --prefer-offline
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
+    - npm ci
     - npm run test:unit
 
 
@@ -65,11 +64,10 @@ build:
     # inherit all global cache settings
     <<: *global_cache
   stage: build
-  before_script:
-    - npm ci --cache .npm --prefer-offline
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
+    - npm ci
     - npm run build
   artifacts:
     paths:
