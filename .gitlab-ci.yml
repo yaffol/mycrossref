@@ -51,6 +51,7 @@ build:
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
+    - npm run ci
     - npm run build
 
 semantic-release:
