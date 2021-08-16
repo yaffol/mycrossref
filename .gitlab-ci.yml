@@ -139,7 +139,7 @@ pages: # the job must be named pages
   cache:
     # inherit all global cache settings
     <<: *global_cache
-  stage: deploy-pages
+  stage: pages
   before_script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
