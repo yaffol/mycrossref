@@ -25,6 +25,21 @@ stages:
 #  - deploy-production
 #  - deploy-pages
 
+cache: &global_cache
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - node_modules/
+    - public/
+    - vendor/
+  policy: pull-push
+
+job:
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
+    # override the policy
+    policy: pull
+
 build-ci-docker-image:
   image: docker:19.03.12
   stage: build-ci-docker-image
@@ -37,6 +52,9 @@ build-ci-docker-image:
 
 unit test:
   image: "$CI_BUILD_IMAGE"
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
   stage: unit-test
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
@@ -47,15 +65,24 @@ unit test:
 
 build:
   image: "$CI_BUILD_IMAGE"
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
   stage: build
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
     - npm ci
     - npm run build
+  artifacts:
+    paths:
+      - dist # artifact path must be /public for GitLab Pages to pick it up
 
 semantic-release:
   image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
   stage: semantic-release
   variables:
     AWS_DEFAULT_PROFILE: staging
@@ -112,3 +139,24 @@ get-generic-version:
   artifacts:
     paths:
       - VERSION.txt
+
+pages: # the job must be named pages
+  image: node:lts-alpine
+  cache:
+    # inherit all global cache settings
+    <<: *global_cache
+  stage: deploy-pages
+  before_script:
+    - export APP_VERSION="$(cat VERSION.txt)"
+    - echo "APP_VERSION is ${APP_VERSION}"
+  script:
+    - mv public public-vue # GitLab Pages hooks on the public folder
+    - mv dist public # rename the dist folder (result of npm run build)
+    - echo "APP_VERSION is ${APP_VERSION}" > public/version.txt
+    # optionally, you can activate gzip support wih the following line:
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+  artifacts:
+    paths:
+      - public # artifact path must be /public for GitLab Pages to pick it up
+  only:
+    - main
