@@ -30,6 +30,7 @@ cache: &global_cache
   key: $CI_COMMIT_REF_SLUG
   paths:
     - node_modules/
+    - .npm/
     - public/
     - vendor/
   policy: pull-push
@@ -50,10 +51,11 @@ unit test:
     # inherit all global cache settings
     <<: *global_cache
   stage: unit-test
+  before_script:
+  - npm ci --cache .npm --prefer-offline
   script:
     - export APP_VERSION="$(cat VERSION.txt)"
     - echo "APP_VERSION is ${APP_VERSION}"
-    - npm ci
     - npm run test:unit
 
 
