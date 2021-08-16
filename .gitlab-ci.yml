@@ -30,12 +30,10 @@ build-ci-docker-image:
   stage: build-ci-docker-image
   services:
     - docker:19.03.12-dind
-  variables:
-    IMAGE_TAG: $CI_BUILD_IMAGE
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -f Dockerfile.ci -t $IMAGE_TAG .
-    - docker push $IMAGE_TAG
+    - docker build -f Dockerfile.ci -t $CI_BUILD_IMAGE .
+    - docker push $CI_BUILD_IMAGE
 
 unit test:
   image: "$CI_BUILD_IMAGE"
