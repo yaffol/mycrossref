@@ -53,6 +53,9 @@ build:
     - echo "APP_VERSION is ${APP_VERSION}"
     - npm ci
     - npm run build
+  artifacts:
+    paths:
+      - dist # artifact path must be /public for GitLab Pages to pick it up
 
 semantic-release:
   image: registry.gitlab.com/crossref/infrastructure/aws-ecr-ecs-cicd-docker:latest
