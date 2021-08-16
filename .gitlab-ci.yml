@@ -112,3 +112,21 @@ get-generic-version:
   artifacts:
     paths:
       - VERSION.txt
+
+pages: # the job must be named pages
+  image: node:lts-alpine
+  stage: pages
+  before_script:
+    - export APP_VERSION="$(cat VERSION.txt)"
+    - echo "APP_VERSION is ${APP_VERSION}"
+  script:
+    - mv public public-vue # GitLab Pages hooks on the public folder
+    - mv dist public # rename the dist folder (result of npm run build)
+    - echo "APP_VERSION is ${APP_VERSION}" > public/version.txt
+    # optionally, you can activate gzip support wih the following line:
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+  artifacts:
+    paths:
+      - public # artifact path must be /public for GitLab Pages to pick it up
+  only:
+    - main
