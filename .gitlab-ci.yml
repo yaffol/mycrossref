@@ -19,6 +19,7 @@ stages:
   - unit-test
   - build
   - semantic-release
+  - pages
   #  - integration-test
 #  - deploy-stg
 #  - deploy-sandbox
@@ -32,13 +33,6 @@ cache: &global_cache
     - public/
     - vendor/
   policy: pull-push
-
-job:
-  cache:
-    # inherit all global cache settings
-    <<: *global_cache
-    # override the policy
-    policy: pull
 
 build-ci-docker-image:
   image: docker:19.03.12
