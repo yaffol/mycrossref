@@ -2,7 +2,5 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/mycrossref/'
-    : '/'
+  publicPath: process.env.VUE_APP_BASE_ROUTE ? process.env.VUE_APP_BASE_ROUTE : '/'
 }
