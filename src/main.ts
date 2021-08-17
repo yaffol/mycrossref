@@ -4,11 +4,14 @@ import './registerServiceWorker'
 import vuetify from './plugins/vuetify'
 import VueCompositionAPI from '@vue/composition-api'
 import { inspect } from '@xstate/inspect'
+import { useInspector } from '@/statemachines/utils'
 
 // TODO: consider wrapping this in a test for "DEV mode"
-inspect({
-  iframe: false
-})
+if (useInspector()) {
+  inspect({
+    iframe: false
+  })
+}
 
 Vue.use(VueCompositionAPI)
 

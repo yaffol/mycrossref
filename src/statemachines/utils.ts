@@ -14,7 +14,7 @@ export const useInspector = (): boolean => {
 const interpretMachineToService = (machineDefinition: any) => {
   const interpretedMachine = useInterpret(
     machineDefinition,
-    { devTools: true },
+    { devTools: useInspector() },
     (state) => {
       // subscribes to state changes
       console.log(state.value)
