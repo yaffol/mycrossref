@@ -20,6 +20,10 @@ export type AuthenticationMachineEvent =
   type: 'LOG_OUT';
 }
   | {
+  type: 'ATTEMPT_LOG_IN';
+  userDetails: UserDetails;
+}
+  | {
   type: 'LOG_IN';
   userDetails: UserDetails;
 };
@@ -30,8 +34,15 @@ const authenticationMachine = createMachine<
   >(
     {
       id: 'authentication',
-      initial: 'checkingIfLoggedIn',
+      initial: 'idle',
       states: {
+        idle: {
+          on: {
+            ATTEMPT_LOG_IN: {
+              target: 'checkIfLoggedIn'
+            }
+          }
+        },
         checkingIfLoggedIn: {
           invoke: {
             src: 'checkIfLoggedIn',
@@ -57,6 +68,9 @@ const authenticationMachine = createMachine<
         loggedOut: {
           entry: ['navigateToAuthPage', 'clearUserDetailsFromContext'],
           on: {
+            ATTEMPT_LOG_IN: {
+              target: 'checkIfLoggedIn'
+            },
             LOG_IN: {
               target: 'loggedIn',
               actions: 'assignUserDetailsToContext'
