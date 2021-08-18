@@ -9,4 +9,3 @@ services:
     container_name: my-crossref
     volumes:
       - .:/app
-      - /app/node_modules
