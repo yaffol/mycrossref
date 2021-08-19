@@ -1,4 +1,5 @@
 import { assign, createMachine, Sender } from 'xstate'
+import { fetchLoginState } from '@/services/fetchers'
 
 interface UserDetails {
   username: string;
@@ -85,12 +86,19 @@ const authenticationMachine = createMachine<
           send: Sender<AuthenticationMachineEvent>
         ) => {
         // Perform some async check here
-          const isLoggedIn = false
+          let isLoggedIn = false
+          let username = 'not logged in'
+          const loginResponse = await fetchLoginState()
+          console.log(loginResponse)
+          if (loginResponse.data && loginResponse.data.firstName) {
+            isLoggedIn = true
+            username = loginResponse.data.firstName
+          }
           if (isLoggedIn) {
             send({
               type: 'REPORT_IS_LOGGED_IN',
               userDetails: {
-                username: 'demo_user@name.com'
+                username: username
               }
             })
           } else {
