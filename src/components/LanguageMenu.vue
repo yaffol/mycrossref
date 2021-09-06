@@ -9,7 +9,7 @@
         v-on="on"
       >
         <v-icon light left>mdi-translate</v-icon>
-        English
+        {{ $vuetify.lang.t('$vuetify.language_menu_button') }}
       </v-btn>
     </template>
     <v-list>

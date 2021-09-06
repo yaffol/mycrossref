@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
+import en from '@/locales/en'
+import es from '@/locales/es'
+import fr from '@/locales/fr'
 
 Vue.use(Vuetify)
 
@@ -16,5 +19,9 @@ export default new Vuetify({
         warning: '#ffc72c'
       }
     }
+  },
+  lang: {
+    locales: { en, es, fr },
+    current: 'en'
   }
 })
