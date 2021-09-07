@@ -5,7 +5,7 @@
       color="primary"
       class="ml-4"
       @click="authMachine.send({
-              type: 'LOG_IN',
+              type: 'ATTEMPT_LOG_IN',
               userDetails: {
                 username: 'pvale@crossref.org'
               }})"
