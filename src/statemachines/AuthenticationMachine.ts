@@ -1,6 +1,8 @@
 import { assign, createMachine, Sender } from 'xstate'
 import { fetchLoginState } from '@/services/fetchers'
 import { context } from 'msw'
+import { Response } from '@/api/Auth'
+import { AxiosResponse } from 'axios'
 
 export interface AttemptedUserDetails {
   username: string;
@@ -95,23 +97,27 @@ const authenticationMachine = createMachine<
         // Perform some async check here
           let isLoggedIn = false
           let username = 'not logged in'
-          const loginResponse = await fetchLoginState(ctx.attemptedUserDetails)
-          console.log(loginResponse)
-          if (loginResponse.data && loginResponse.data.firstName) {
-            isLoggedIn = true
-            username = loginResponse.data.firstName
-          }
-          if (isLoggedIn) {
-            send({
-              type: 'REPORT_IS_LOGGED_IN',
-              userDetails: {
-                username: username
-              }
-            })
-          } else {
-            send({
-              type: 'REPORT_IS_LOGGED_OUT'
-            })
+          try {
+            const loginResponse = await fetchLoginState(ctx.attemptedUserDetails)
+            console.log(loginResponse)
+            if (loginResponse.firstName) {
+              isLoggedIn = true
+              username = loginResponse.data.firstName
+            }
+            if (isLoggedIn) {
+              send({
+                type: 'REPORT_IS_LOGGED_IN',
+                userDetails: {
+                  username: username
+                }
+              })
+            } else {
+              send({
+                type: 'REPORT_IS_LOGGED_OUT'
+              })
+            }
+          } catch (e) {
+            console.log(e)
           }
         }
       },
