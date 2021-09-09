@@ -6,8 +6,7 @@
       color="white"
     >
       <a href="/">
-        <v-img src="https://assets.crossref.org/logo/crossref-logo-100.png" alt="Crossref logo" aspect-ratio="1.538"
-             max-height="50px" max-width="72px" min-height="36px" min-width="72px"/>
+        <app-logo></app-logo>
       </a>
       <v-spacer/>
       <language-menu/>
@@ -22,13 +21,14 @@ import { defineComponent } from '@vue/composition-api'
 import LanguageMenu from '@/components/LanguageMenu.vue'
 import LoginButton from '@/components/LoginButton.vue'
 import SearchButton from '@/components/SearchButton.vue'
+import AppLogo from '@/components/AppLogo.vue'
 
 export default defineComponent({
   name: 'HeaderBar',
   props: {
     authMachine: Object
   },
-  components: { SearchButton, LoginButton, LanguageMenu }
+  components: { AppLogo, SearchButton, LoginButton, LanguageMenu }
 })
 </script>
 

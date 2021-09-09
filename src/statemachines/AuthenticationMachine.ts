@@ -1,10 +1,17 @@
 import { assign, createMachine, Sender } from 'xstate'
+import { fetchLoginState } from '@/services/fetchers'
+import { context } from 'msw'
 
-interface UserDetails {
+export interface AttemptedUserDetails {
+  username: string;
+}
+
+export interface UserDetails {
   username: string;
 }
 
 export type AuthenticationMachineContext = {
+  attemptedUserDetails?: AttemptedUserDetails,
   userDetails?: UserDetails;
 };
 
@@ -20,6 +27,10 @@ export type AuthenticationMachineEvent =
   type: 'LOG_OUT';
 }
   | {
+  type: 'ATTEMPT_LOG_IN';
+  userDetails: UserDetails;
+}
+  | {
   type: 'LOG_IN';
   userDetails: UserDetails;
 };
@@ -30,8 +41,16 @@ const authenticationMachine = createMachine<
   >(
     {
       id: 'authentication',
-      initial: 'checkingIfLoggedIn',
+      initial: 'idle',
       states: {
+        idle: {
+          on: {
+            ATTEMPT_LOG_IN: {
+              actions: 'assignAttemptedUserDetailsToContext',
+              target: 'checkingIfLoggedIn'
+            }
+          }
+        },
         checkingIfLoggedIn: {
           invoke: {
             src: 'checkIfLoggedIn',
@@ -57,6 +76,9 @@ const authenticationMachine = createMachine<
         loggedOut: {
           entry: ['navigateToAuthPage', 'clearUserDetailsFromContext'],
           on: {
+            ATTEMPT_LOG_IN: {
+              target: 'checkingIfLoggedIn'
+            },
             LOG_IN: {
               target: 'loggedIn',
               actions: 'assignUserDetailsToContext'
@@ -67,16 +89,23 @@ const authenticationMachine = createMachine<
     },
     {
       services: {
-        checkIfLoggedIn: () => async (
+        checkIfLoggedIn: (ctx) => async (
           send: Sender<AuthenticationMachineEvent>
         ) => {
         // Perform some async check here
-          const isLoggedIn = false
+          let isLoggedIn = false
+          let username = 'not logged in'
+          const loginResponse = await fetchLoginState(ctx.attemptedUserDetails)
+          console.log(loginResponse)
+          if (loginResponse.data && loginResponse.data.firstName) {
+            isLoggedIn = true
+            username = loginResponse.data.firstName
+          }
           if (isLoggedIn) {
             send({
               type: 'REPORT_IS_LOGGED_IN',
               userDetails: {
-                username: 'demo_user@name.com'
+                username: username
               }
             })
           } else {
@@ -91,12 +120,22 @@ const authenticationMachine = createMachine<
         // When the user is logged out, we
         // should take them to the /auth route
         },
+        assignAttemptedUserDetailsToContext: assign((context, event) => {
+          if (event.type !== 'ATTEMPT_LOG_IN') {
+            return {}
+          }
+          return {
+            attemptedUserDetails: event.userDetails
+          }
+        }),
         assignUserDetailsToContext: assign((context, event) => {
           if (event.type !== 'REPORT_IS_LOGGED_IN' && event.type !== 'LOG_IN') {
             return {}
           }
+          debugger
+          const attemptedUserDetails: AttemptedUserDetails = (({ username }) => ({ username }))(event.userDetails)
           return {
-            userDetails: event.userDetails
+            userDetails: attemptedUserDetails
           }
         }),
         clearUserDetailsFromContext: assign((context) => {
