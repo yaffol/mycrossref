@@ -30,27 +30,30 @@ import HeaderBar from '@/components/HeaderSystemBar.vue'
 import NavDrawer from '@/components/NavDrawer.vue'
 import authenticationMachine from '@/statemachines/AuthenticationMachine'
 import searchBoxToggleMachine from '@/statemachines/SearchBoxToggleMachine'
-import { interpretMachineToService } from '@/statemachines/utils'
+import { interpretMachineToService, StateMachineService } from '@/statemachines/utils'
 import SearchButton from '@/components/SearchButton.vue'
+import { provideAppService } from '@/statemachines/app.machine'
+import { useActor } from 'xstate-vue2'
 
 export default defineComponent({
   name: 'App',
   components: { SearchButton, NavDrawer, HeaderBar },
   setup () {
-    // const authMachineService = useInterpret(
-    //   authenticationMachine,
-    //   { devTools: true },
-    //   (state) => {
-    //     // subscribes to state changes
-    //     console.log(state.value)
-    //   })
-    // const { state, send } = useActor(authMachineService)
-    // const authMachine: StateMachineService = {
-    //   service: authMachineService,
-    //   state: state,
-    //   send: send
-    // }
-    const authMachine = interpretMachineToService(authenticationMachine)
+    const service = provideAppService()
+    return {
+      service
+    }
+  }
+    debugger
+    // pass this service down to the dashboard page
+    // const dashboardPage = service.context.dashboardPage
+    const { state, send } = useActor(service)
+    const authMachine: StateMachineService = {
+      service: authenticationMachine,
+      state: state,
+      send: send
+    }
+    // const authMachine = interpretMachineToService(authenticationMachine)
     const searchBoxMachine = interpretMachineToService(searchBoxToggleMachine)
     const toolbarColour = computed(() => {
       return authMachine.state.value.value === 'loggedIn' ? 'primary' : 'secondary'
