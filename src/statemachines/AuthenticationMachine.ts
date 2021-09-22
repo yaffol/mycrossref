@@ -102,7 +102,7 @@ const authenticationMachine = createMachine<
             console.log(loginResponse)
             if (loginResponse.firstName) {
               isLoggedIn = true
-              username = loginResponse.data.firstName
+              username = loginResponse.firstName
             }
             if (isLoggedIn) {
               send({
