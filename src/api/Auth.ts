@@ -1,5 +1,5 @@
 import { Api } from '@/api/Api'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 
 const ERROR_MESSAGE_DATA_MISSING_FROM_RESPONSE = 'An error occurred, please try again'
 const ERROR_MESSAGE_UNKNOWN_ERROR = 'An error occurred, please try again'
@@ -119,7 +119,8 @@ class Auth implements Auth {
       roles: [],
       rolesAssigned: false,
       token: null,
-      redirect: null
+      redirect: null,
+      firstName: null
     }
     // Add the HTTP status code
     if (typeof r.status === 'number') {
@@ -179,18 +180,18 @@ class Auth implements Auth {
    */
   async post (url: string, payload: Payload, config: RequestConfig) {
     return await this.api.post(url, payload, config)
-      .then((r) => {
+      .then((r: AxiosResponse) => {
         let response = this.processResponse(r)
         response = this.addCredentialsToResponse(response, payload)
 
         return response
       })
-      .catch((error) => {
+      .catch((error: AxiosError) => {
         /**
          * This happens when the XHR returned a non-success response code
          * or couldn't start or complete successfully (eg CORS, bad network)
          */
-        const errorResponse = typeof error.response === 'object' ? error.response : {}
+        const errorResponse = typeof error.response === 'object' ? error.response : <AxiosResponse>{}
         let response = this.processResponse(errorResponse)
         if (typeof response.errorMessage !== 'string') {
           if (!error.response && error.request) {
