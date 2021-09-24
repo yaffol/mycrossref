@@ -36,35 +36,26 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
+import { useAuthService } from '@/statemachines/app.machine'
+import { useActor } from 'xstate-vue2'
+import { StateValue } from 'xstate'
+import { has } from 'lodash'
 
 export default defineComponent({
   name: 'LoginButton',
-  props: {
-    authMachine: {
-      type: Object,
-      required: true
+  setup () {
+    const service = useAuthService()
+    const authMachine = useActor(service)
+    return {
+      authMachine
     }
   },
-  setup () {
-    return {}
-  },
   computed: {
-    authState (): string {
+    authState (): StateValue {
       return this.authMachine.state.value.value
     },
     userName (): string {
-      if (
-        !this.authMachine.state.value.context
-      ) {
-        return ''
-      }
-      if (!this.authMachine.state.value.context.userDetails) {
-        return ''
-      }
-      if (!this.authMachine.state.value.context.userDetails.username) {
-        return ''
-      }
-      return this.authMachine.state.value.context.userDetails.username
+      return (typeof this.authMachine.state.value?.context?.userDetails !== 'undefined') ? this.authMachine.state.value.context.userDetails.username : ''
     },
     buttonText (): string {
       switch (this.authState) {

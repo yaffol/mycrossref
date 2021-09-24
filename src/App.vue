@@ -3,7 +3,7 @@
 
   <v-app>
     <nav-drawer v-model="drawer"/>
-    <header-bar :auth-machine="authMachine"></header-bar>
+    <header-bar></header-bar>
     <v-main>
       <v-toolbar dense dark :class="toolbarColour">
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -33,6 +33,7 @@ import searchBoxToggleMachine from '@/statemachines/SearchBoxToggleMachine'
 import { interpretMachineToService, StateMachineService } from '@/statemachines/utils'
 import SearchButton from '@/components/SearchButton.vue'
 import { provideAppService } from '@/statemachines/app.machine'
+import { provideSearchService } from '@/statemachines/search.machine'
 import { useActor } from 'xstate-vue2'
 
 export default defineComponent({
@@ -40,13 +41,7 @@ export default defineComponent({
   components: { SearchButton, NavDrawer, HeaderBar },
   setup () {
     const service = provideAppService()
-    return {
-      service
-    }
-  }
-    debugger
-    // pass this service down to the dashboard page
-    // const dashboardPage = service.context.dashboardPage
+    const searchService = provideSearchService()
     const { state, send } = useActor(service)
     const authMachine: StateMachineService = {
       service: authenticationMachine,
@@ -54,11 +49,12 @@ export default defineComponent({
       send: send
     }
     // const authMachine = interpretMachineToService(authenticationMachine)
-    const searchBoxMachine = interpretMachineToService(searchBoxToggleMachine)
+    const searchBoxMachine = useActor(searchService)
+    // Declare a computed value
     const toolbarColour = computed(() => {
       return authMachine.state.value.value === 'loggedIn' ? 'primary' : 'secondary'
     })
-    return { authMachine, searchBoxMachine, toolbarColour }
+    return { service, authMachine, searchBoxMachine, toolbarColour }
   },
   data: () => ({
     drawer: false

@@ -10,7 +10,7 @@
       </a>
       <v-spacer/>
       <language-menu/>
-      <login-button :auth-machine="authMachine"/>
+      <login-button/>
     </v-app-bar>
   </div>
 
@@ -23,7 +23,7 @@ import LoginButton from '@/components/LoginButton.vue'
 import SearchButton from '@/components/SearchButton.vue'
 import AppLogo from '@/components/AppLogo.vue'
 import {
-  useAppService
+  useAuthService
 } from '@/statemachines/app.machine'
 import { StateMachineService } from '@/statemachines/utils'
 import { useActor } from 'xstate-vue2'
@@ -31,13 +31,8 @@ import { useActor } from 'xstate-vue2'
 export default defineComponent({
   name: 'HeaderBar',
   setup () {
-    const service = useAppService()
-    const { state, send } = useActor(service)
-    const authMachine: StateMachineService = {
-      service: service,
-      state: state,
-      send: send
-    }
+    const service = useAuthService()
+    const authMachine = useActor(service)
     return {
       authMachine
     }

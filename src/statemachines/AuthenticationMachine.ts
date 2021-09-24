@@ -1,7 +1,7 @@
 import { assign, createMachine, Sender } from 'xstate'
 import { fetchLoginState } from '@/services/fetchers'
 import { context } from 'msw'
-import { Response } from '@/api/Auth'
+import { Response } from '@/common/types'
 import { AxiosResponse } from 'axios'
 
 export interface AttemptedUserDetails {
