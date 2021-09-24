@@ -18,23 +18,25 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
+import { useAuthService } from '@/statemachines/app.machine'
+import { useActor } from 'xstate-vue2'
+import { useSearchService } from '@/statemachines/search.machine'
+import { StateValue } from 'xstate'
 
 export default defineComponent({
   name: 'SearchButton',
-  props: {
-    searchBoxToggleMachine: {
-      type: Object,
-      required: true
-    }
-  },
   setup () {
-    return {}
+    const service = useSearchService()
+    const searchBoxToggleMachine = useActor(service)
+    return {
+      searchBoxToggleMachine
+    }
   },
   data: () => ({
     searchText: ''
   }),
   computed: {
-    searchBoxState (): string {
+    searchBoxState (): StateValue {
       return this.searchBoxToggleMachine.state.value.value
     },
     isShown (): boolean {
@@ -45,7 +47,7 @@ export default defineComponent({
     }
   },
   watch: {
-    searchText: function () {
+    searchText: function (): void {
       this.searchBoxToggleMachine.send({ type: 'REPORT_TEXT_CHANGE', text: this.searchText })
     }
   }
