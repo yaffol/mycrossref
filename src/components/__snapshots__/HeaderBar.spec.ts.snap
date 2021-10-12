@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderBar.vue should have a custom title and match snapshot 1`] = `
+<div title="Foobar">
+  <header class="v-sheet theme--light v-toolbar v-toolbar--flat v-app-bar v-app-bar--fixed white" style="height: 64px; margin-top: 0px; transform: translateY(0px); left: 0px; right: 0px;">
+    <div class="v-toolbar__content" style="height: 64px;"><a href="/">
+        <div>
+          <div aria-label="Crossref logo" role="img" class="v-image v-responsive theme--light" style="min-height: 36px; min-width: 72px; max-height: 50px; max-width: 72px;">
+            <div class="v-responsive__sizer" style="padding-bottom: 65.01950585175553%;"></div>
+            <transition-stub name="fade-transition" mode="in-out">
+              <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-position: center center;"></div>
+            </transition-stub>
+            <div class="v-responsive__content"></div>
+          </div>
+        </div>
+      </a>
+      <div class="spacer"></div>
+      <div class="v-menu"><button type="button" class="v-btn v-btn--outlined theme--light v-size--default primary--text" role="button" aria-haspopup="true" aria-expanded="false"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate v-icon--left mdi mdi-translate theme--light"></i>
+      $vuetify.language_menu_button
+    </span></button>
+        <!---->
+      </div> <span><button type="button" class="ml-4 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default primary"><span class="v-btn__content">Log in</span></button>
+      <!----></span>
+    </div>
+  </header>
+</div>
+`;

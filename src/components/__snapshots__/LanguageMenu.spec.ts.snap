@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageMenu.vue should work 1`] = `
+<div class="v-menu"><button type="button" class="v-btn v-btn--outlined theme--light v-size--default primary--text" role="button" aria-haspopup="true" aria-expanded="false"><span class="v-btn__content"><i aria-hidden="true" class="v-icon notranslate v-icon--left mdi mdi-translate theme--light"></i>
+      $vuetify.language_menu_button
+    </span></button>
+  <!---->
+</div>
+`;

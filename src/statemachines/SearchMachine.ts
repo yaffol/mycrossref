@@ -1,8 +1,8 @@
 import { assign, createMachine } from 'xstate'
 
-export type SearchBoxToggleMachineContext = {
+export interface SearchBoxToggleMachineContext {
   text: string
-};
+}
 
 export type SearchBoxToggleMachineEvent =
   | {
@@ -67,4 +67,6 @@ const searchBoxToggleMachine = createMachine<
     }
   )
 
-export default searchBoxToggleMachine
+const searchMachine = searchBoxToggleMachine
+
+export { searchBoxToggleMachine, searchMachine }

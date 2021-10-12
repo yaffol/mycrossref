@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "resolveJsonModule" : true,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -36,6 +37,8 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/schemata",
+    "tests/e2e"
   ]
 }

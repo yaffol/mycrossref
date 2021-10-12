@@ -4,11 +4,7 @@
       v-if="!isLoggedIn"
       color="primary"
       class="ml-4"
-      @click="authMachine.send({
-              type: 'ATTEMPT_LOG_IN',
-              userDetails: {
-                username: 'pvale@crossref.org'
-              }})"
+      @click="attemptLogin"
     >{{ buttonText }}</v-btn>
     <v-menu
       v-if="isLoggedIn"
@@ -36,35 +32,37 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
+import { useAuthService } from '@/statemachines/auth.machine'
+import { StateValue } from 'xstate'
 
 export default defineComponent({
   name: 'LoginButton',
-  props: {
-    authMachine: {
-      type: Object,
-      required: true
+  setup () {
+    const authMachine = useAuthService()
+    const attemptLogin = () => {
+      authMachine.send({
+        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        type: 'ATTEMPT_LOG_IN',
+        /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        userDetails: {
+          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          // @ts-ignore
+          username: 'someone@crossref.org'
+        }
+      })
+    }
+    return {
+      authMachine, attemptLogin
     }
   },
-  setup () {
-    return {}
-  },
   computed: {
-    authState (): string {
+    authState (): StateValue {
       return this.authMachine.state.value.value
     },
     userName (): string {
-      if (
-        !this.authMachine.state.value.context
-      ) {
-        return ''
-      }
-      if (!this.authMachine.state.value.context.userDetails) {
-        return ''
-      }
-      if (!this.authMachine.state.value.context.userDetails.username) {
-        return ''
-      }
-      return this.authMachine.state.value.context.userDetails.username
+      return (typeof this.authMachine.state.value?.context?.userDetails !== 'undefined') ? this.authMachine.state.value.context.userDetails.username : ''
     },
     buttonText (): string {
       switch (this.authState) {

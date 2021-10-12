@@ -10,7 +10,7 @@
       </a>
       <v-spacer/>
       <language-menu/>
-      <login-button :auth-machine="authMachine"/>
+      <login-button/>
     </v-app-bar>
   </div>
 
@@ -20,15 +20,20 @@
 import { defineComponent } from '@vue/composition-api'
 import LanguageMenu from '@/components/LanguageMenu.vue'
 import LoginButton from '@/components/LoginButton.vue'
-import SearchButton from '@/components/SearchButton.vue'
 import AppLogo from '@/components/AppLogo.vue'
+import {
+  useAuthService
+} from '@/statemachines/auth.machine'
 
 export default defineComponent({
   name: 'HeaderBar',
-  props: {
-    authMachine: Object
+  setup () {
+    const authMachine = useAuthService()
+    return {
+      authMachine
+    }
   },
-  components: { AppLogo, SearchButton, LoginButton, LanguageMenu }
+  components: { AppLogo, LoginButton, LanguageMenu }
 })
 </script>
 

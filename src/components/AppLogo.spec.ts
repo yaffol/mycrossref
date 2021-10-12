@@ -9,14 +9,12 @@ describe('AppLogo.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
   })
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
+  it('renders the logo image', async () => {
     const wrapper = shallowMount(AppLogo, {
       localVue,
-      vuetify,
-      propsData: { msg }
+      vuetify
     })
-    console.log(wrapper.html())
+
     expect(wrapper.find('.v-image__image'))
   })
 })

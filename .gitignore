@@ -27,3 +27,6 @@ pnpm-debug.log*
 /coverage/
 /.nyc_output/
 /core
+
+#yalc
+.yalc

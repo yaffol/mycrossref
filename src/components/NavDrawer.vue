@@ -85,7 +85,9 @@ export default defineComponent({
     }
     return { items }
   },
-  data: () => ({
+  data: (): {
+    localDrawer: boolean | undefined
+  } => ({
     localDrawer: false
   }),
   watch: {

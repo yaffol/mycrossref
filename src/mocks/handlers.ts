@@ -11,9 +11,7 @@ interface LoginResponse {
 
 export default [
   rest.post<UserDetails, LoginResponse>('/login', (req, res, ctx) => {
-    console.log(req.body)
     const { username } = req.body
-    console.log(req)
     return res(
       ctx.json({
         username,

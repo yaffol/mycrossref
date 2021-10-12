@@ -1,20 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
 import { AttemptedUserDetails } from '../statemachines/AuthenticationMachine'
+import { Response } from '@/common/types'
 
-export const fetchLoginState = async function (data?: AttemptedUserDetails) {
-  console.log(data)
-  const response = await axios.post('/login', data)
-    .then((response: AxiosResponse) => {
-      if (!response.data) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      return response
-    })
-    .catch((error) => {
-      console.log('ERROR!!!')
-      console.log(error)
-    })
-  debugger
+export const fetchLoginState = async function (creds?: AttemptedUserDetails) {
+  const { data } = await axios.post('/login', creds)
+  const loginResponse: Response = data
+  return loginResponse
+}
 
-  return response
+export const delay = function (n: number) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, n * 1000)
+  })
 }

@@ -5,9 +5,10 @@ import vuetify from './plugins/vuetify'
 import VueCompositionAPI from '@vue/composition-api'
 import { inspect } from '@xstate/inspect'
 import { useInspector } from '@/statemachines/utils'
-import { worker } from '@/mocks/browser'
 
 if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { worker } = require('@/mocks/browser')
   worker.start()
 }
 

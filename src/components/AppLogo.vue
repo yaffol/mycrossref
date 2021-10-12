@@ -1,6 +1,8 @@
 <template>
-  <v-img :src=this.URL_LOGO_HORIZONTAL_RECTANGLE alt="Crossref logo" aspect-ratio="1.538"
-         max-height="50px" max-width="72px" min-height="36px" min-width="72px"/>
+  <div>
+    <v-img :src=this.URL_LOGO_HORIZONTAL_RECTANGLE alt="Crossref logo" aspect-ratio="1.538"
+           max-height="50px" max-width="72px" min-height="36px" min-width="72px"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -11,7 +13,7 @@ export default defineComponent({
   name: 'AppLogo',
   setup () {
     return {
-      // This is deliberately not reactive
+      // This is deliberately not reactive, as it won't change dynamically
       URL_LOGO_HORIZONTAL_RECTANGLE
     }
   }
