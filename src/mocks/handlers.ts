@@ -1,9 +1,6 @@
 import { rest } from 'msw'
 import { UserDetails } from '../statemachines/AuthenticationMachine'
 
-interface LoginBody {
-  username: string
-}
 interface LoginResponse {
   username: string
   firstName: string

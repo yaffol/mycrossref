@@ -27,6 +27,9 @@ export default defineComponent({
   setup () {
     const searchBoxToggleMachine = useSearchService()
     const searchText = computed(() => {
+      // useActor type bug https://github.com/statelyai/xstate/issues/2727
+      /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+      // @ts-ignore
       return searchBoxToggleMachine.state.value.context.text
     })
     const toggle = () => {

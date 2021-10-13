@@ -42,9 +42,6 @@ interface MultiLevelMenuItem {
   label: string, items: MenuItem[]
 }
 
-interface MenuList {
-  items: MenuItem[] | MultiLevelMenuItem[]
-}
 export default defineComponent({
   name: 'NavDrawer',
   components: { AppLogo },

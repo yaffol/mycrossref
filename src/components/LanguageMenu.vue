@@ -24,18 +24,19 @@
   </v-menu>
 </template>
 
-<script>
-/**
+<script lang="ts">/**
  * A drop-down menu presenting the available language choices
  */
-export default {
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({
   name: 'LanguageMenu',
   methods: {
     /**
      *
      * @param v The locale to switch to
      */
-    changeLocale (v) {
+    changeLocale: function (v: string) {
       this.$vuetify.lang.current = v
     }
   },
@@ -58,7 +59,7 @@ export default {
       }
     ]
   })
-}
+})
 </script>
 
 <style scoped>
