@@ -1,10 +1,11 @@
 <template>
-  <span>
+  <span data-cy="login-button__wrapper">
     <v-btn
       v-if="!isLoggedIn"
       color="primary"
       class="ml-4"
       @click="attemptLogin"
+      data-cy="login-button__button--logged-out"
     >{{ buttonText }}</v-btn>
     <v-menu
       v-if="isLoggedIn"
@@ -16,13 +17,12 @@
           v-bind="attrs"
           v-on="on"
           class="ml-4"
-        >
-          {{ userName }}
-          <v-icon>mdi-menu-down</v-icon>
+          data-cy="login-button__button--logged-in"
+        >{{ userName }}<v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
-      <v-list>
-        <v-list-item @click="authMachine.send('LOG_OUT')">
+      <v-list data-cy="login-button__menu--logged-in">
+        <v-list-item @click="authMachine.send('LOG_OUT')" data-cy="login-button__button--log-out">
           <v-list-item-title>{{ buttonText }}</v-list-item-title>
         </v-list-item>
       </v-list>
