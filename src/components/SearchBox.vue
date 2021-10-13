@@ -2,7 +2,7 @@
     <v-text-field
       prepend-inner-icon="mdi-magnify"
       placeholder="Search"
-      :class="{'expanding-search': true, 'closed': searchClosed   }"
+      :class="{'expanding-search': true, 'closed': searchClosed  }"
       :value="searchText"
       @focus="toggle"
       @blur="toggle"
@@ -14,6 +14,7 @@
       filled
       outlined
       dense
+      data-cy="search-box__input"
     ></v-text-field>
 </template>
 

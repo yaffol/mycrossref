@@ -27,8 +27,11 @@ describe('The Search Box', {
     const searchBoxInput = cy.get('[data-cy="search-box__input"]')
     const searchBoxInputControl = searchBoxInput.parents('.v-input__control')
     searchBoxInputControl.click().should('have.css', 'width', '200px')
-    cy.get('body').click(0, 0).wait(500)
-    searchBoxInputControl.should('have.css', 'width', '45px')
+    const body = cy.get('body')
+    body.click(0, 0).wait(500)
+    // have to search for the target element again - possibly because it's been re-rendered and thus is
+    // a new element
+    cy.get('[data-cy="search-box__input"]').parents('.v-input__control').should('have.css', 'width', '45px')
   })
   it('Has the search icon', () => {
     cy.visit('/')
