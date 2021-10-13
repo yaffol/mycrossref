@@ -52,7 +52,7 @@ export type AuthenticationMachineEvent =
 
 const initialContext = <AuthenticationMachineContext>{}
 
-const authenticationMachine = createMachine<
+export const authenticationMachine = createMachine<
   AuthenticationMachineContext,
   AuthenticationMachineEvent
   >(

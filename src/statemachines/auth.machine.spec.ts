@@ -1,5 +1,5 @@
 import { interpret } from 'xstate'
-import authenticationMachine from '@/statemachines/AuthenticationMachine'
+import { authenticationMachine } from '@/statemachines/auth.machine'
 import { server } from '@/mocks/server'
 
 beforeAll(() => {
