@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { userProvidedCredentials } from '../statemachines/AuthenticationMachine'
+import { userProvidedCredentials } from '../statemachines/auth.machine'
 import { Response } from '@/common/types'
 
 export const fetchLoginState = async function (creds?: userProvidedCredentials) {

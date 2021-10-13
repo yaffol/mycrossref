@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { UserDetails } from '../statemachines/AuthenticationMachine'
+import { UserDetails } from '../statemachines/auth.machine'
 
 interface LoginResponse {
   username: string
