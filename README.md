@@ -1,6 +1,6 @@
 # MyCrossref
 
-## Setup
+## Setup - required
 ```
 npm install
 ```
@@ -29,6 +29,18 @@ npm run test:unit
 ### run end-to-end tests
 ```
 npm run test:e2e
+```
+
+or (with GUI)
+
+```
+./run-cypress.sh -g
+```
+
+or (headless)
+
+```
+./run-cypress.sh
 ```
 
 ### lint and fix syntax
