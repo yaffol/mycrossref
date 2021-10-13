@@ -10,7 +10,7 @@ exports[`SearchBox.vue should work 1`] = `
       <fieldset aria-hidden="true">
         <legend><span>​</span></legend>
       </fieldset>
-      <div class="v-text-field__slot"><input id="input-4" placeholder="Search" type="text"></div>
+      <div class="v-text-field__slot"><input data-cy="search-box__input" id="input-4" placeholder="Search" type="text"></div>
       <div class="v-input__append-inner">
         <div></div>
       </div>

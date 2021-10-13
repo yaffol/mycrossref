@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LoginButton.vue should work 1`] = `
-<span><button type="button" class="ml-4 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default primary"><span class="v-btn__content">Log in</span></button>
+<span data-cy="login-button__wrapper"><button type="button" class="ml-4 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default primary" data-cy="login-button__button--logged-out"><span class="v-btn__content">Log in</span></button>
 <!----></span>
 `;
