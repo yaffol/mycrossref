@@ -1,7 +1,7 @@
 import { assign, createMachine, Sender } from 'xstate'
 import { delay, fetchLoginState } from '@/services/fetchers'
 
-export interface AttemptedUserDetails {
+export interface userProvidedCredentials {
   username: string;
 }
 
@@ -10,7 +10,7 @@ export interface UserDetails {
 }
 
 export type AuthenticationMachineContext = {
-  attemptedUserDetails?: AttemptedUserDetails,
+  userProvidedCredentials?: userProvidedCredentials,
   userDetails?: UserDetails;
 };
 
@@ -48,7 +48,7 @@ const authenticationMachine = createMachine<
         idle: {
           on: {
             ATTEMPT_LOG_IN: {
-              actions: 'assignAttemptedUserDetailsToContext',
+              actions: 'assignUserProvidedCredentialsToContext',
               target: 'checkingIfLoggedIn'
             }
           }
@@ -98,7 +98,7 @@ const authenticationMachine = createMachine<
           let isLoggedIn = false
           let username = 'not logged in'
           try {
-            const loginResponse = await fetchLoginState(ctx.attemptedUserDetails)
+            const loginResponse = await fetchLoginState(ctx.userProvidedCredentials)
             if (loginResponse.firstName) {
               isLoggedIn = true
               username = loginResponse.firstName
@@ -125,21 +125,21 @@ const authenticationMachine = createMachine<
         // When the user is logged out, we
         // should take them to the /auth route
         },
-        assignAttemptedUserDetailsToContext: assign((context, event) => {
+        assignUserProvidedCredentialsToContext: assign((context, event) => {
           if (event.type !== 'ATTEMPT_LOG_IN') {
             return {}
           }
           return {
-            attemptedUserDetails: event.userDetails
+            userProvidedCredentials: event.userDetails
           }
         }),
         assignUserDetailsToContext: assign((context, event) => {
           if (event.type !== 'REPORT_IS_LOGGED_IN' && event.type !== 'LOG_IN') {
             return {}
           }
-          const attemptedUserDetails: AttemptedUserDetails = (({ username }) => ({ username }))(event.userDetails)
+          const userProvidedCredentials: userProvidedCredentials = (({ username }) => ({ username }))(event.userDetails)
           return {
-            userDetails: attemptedUserDetails
+            userDetails: userProvidedCredentials
           }
         }),
         clearUserDetailsFromContext: assign((context) => {

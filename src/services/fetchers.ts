@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
-import { AttemptedUserDetails } from '../statemachines/AuthenticationMachine'
+import { userProvidedCredentials } from '../statemachines/AuthenticationMachine'
 import { Response } from '@/common/types'
 
-export const fetchLoginState = async function (creds?: AttemptedUserDetails) {
+export const fetchLoginState = async function (creds?: userProvidedCredentials) {
   const { data } = await axios.post('/login', creds)
   const loginResponse: Response = data
   return loginResponse
