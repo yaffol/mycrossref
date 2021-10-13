@@ -37,7 +37,6 @@ describe('LoginButton.vue', () => {
     const wrapper = mountFunction()
     const button = wrapper.find('button')
     await button.trigger('click')
-    console.log(wrapper.html())
   })
   // Probably a better candidate for an e2e test
   // it('Calls the changeLocale method with the new locale on menu item click', async () => {
