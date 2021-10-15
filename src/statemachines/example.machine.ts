@@ -7,7 +7,7 @@ type ToggleEvent =
   | { type: 'SOME_OTHER_EVENT', text: string }
   | { type: 'SOME_EVENT' };
 
-const toggleMachine = createMachine<{ count: number }, ToggleEvent>({
+const exampleMachine = createMachine<{ count: number }, ToggleEvent>({
   id: 'toggle',
   initial: 'inactive',
   context: {
@@ -24,11 +24,11 @@ const toggleMachine = createMachine<{ count: number }, ToggleEvent>({
   }
 })
 
-export type ToggleService = InterpreterFrom<typeof toggleMachine>;
+export type ToggleService = InterpreterFrom<typeof exampleMachine>;
 export const toggleServiceSymbol: InjectionKey<ToggleService> = Symbol('toggle.service')
 
 export function getToggleService () {
-  const service = useInterpret(toggleMachine)
+  const service = useInterpret(exampleMachine)
   return service
 }
 
