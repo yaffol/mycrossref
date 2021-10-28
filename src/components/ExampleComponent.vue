@@ -1,14 +1,14 @@
 <template>
-  <div>
-    test 1
-    <button @click="send('TOGGLE')">
+  <v-card>
+    <v-card-title>Toggle Machine</v-card-title>
+    <v-card-text>
+      <v-switch data-cy="example-component__toggle-switch" @click="send('TOGGLE')"  :label="`State: ${state.value}`">
       Click me ({{ state.matches("active") ? "✅" : "❌" }})
-    </button>
-    <code>
-      Toggled
-      <strong>{{ state.context.count }}</strong> times
-    </code>
-  </div>
+      </v-switch>
+      <span data-cy="example-component__toggle-switch--toggle-count-text">Toggled
+      <strong>{{ state.context.count }}</strong> times</span>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">

@@ -1,17 +1,18 @@
 import { inject, InjectionKey, provide } from '@vue/composition-api'
 import { useActor, useInterpret } from 'xstate-vue2'
 import { createMachine, assign, InterpreterFrom } from 'xstate'
+import { useInspector } from '@/statemachines/utils'
 
 type ToggleEvent =
   | { type: 'TOGGLE' }
   | { type: 'SOME_OTHER_EVENT', text: string }
   | { type: 'SOME_EVENT' };
 
-const exampleMachine = createMachine<{ count: number }, ToggleEvent>({
+export const exampleMachine = createMachine<{ count: number }, ToggleEvent>({
   id: 'toggle',
   initial: 'inactive',
   context: {
-    count: 3
+    count: 0
   },
   states: {
     inactive: {
@@ -28,13 +29,15 @@ export type ToggleService = InterpreterFrom<typeof exampleMachine>;
 export const toggleServiceSymbol: InjectionKey<ToggleService> = Symbol('toggle.service')
 
 export function getToggleService () {
-  const service = useInterpret(exampleMachine)
+  const service = useInterpret(exampleMachine, { devTools: useInspector() })
   return service
 }
 
 export function provideToggleService () {
   const service = getToggleService()
   provide(toggleServiceSymbol, service)
+
+  return service
 }
 
 export function useToggleService () {
