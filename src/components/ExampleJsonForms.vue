@@ -18,7 +18,7 @@
 import { defineComponent, ref } from '@vue/composition-api'
 import { JsonForms, JsonFormsChangeEvent } from '@jsonforms/vue2'
 import { vuetifyRenderers } from '@jsonforms/vue2-vuetify'
-import { examples } from '@/jsonSchema'
+import { examples } from '@/schema'
 
 const schema = {
   properties: {

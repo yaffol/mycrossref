@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import { useToggleService } from '../statemachines/example.machine'
-import { examples as schema } from '@/jsonSchema'
+import { examples as schema } from '@/schema'
 
 export default defineComponent({
   setup () {
