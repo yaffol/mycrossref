@@ -50,6 +50,10 @@ export default defineComponent({
         title: 'English'
       },
       {
+        locale: 'de',
+        title: 'German'
+      },
+      {
         locale: 'fr',
         title: 'Français'
       },

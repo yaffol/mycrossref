@@ -5,6 +5,7 @@
         v-bind:data="example.input.data"
         v-bind:schema="example.input.schema"
         v-bind:renderers="renderers"
+        v-bind:i18n="i18n"
         @change="onChange"
       />
     </v-col>
@@ -19,6 +20,10 @@ import { defineComponent, ref } from '@vue/composition-api'
 import { JsonForms, JsonFormsChangeEvent } from '@jsonforms/vue2'
 import { vuetifyRenderers } from '@jsonforms/vue2-vuetify'
 import { examples } from '@/schema'
+import {
+  JsonFormsI18nState
+} from '@jsonforms/core'
+import { createTranslator, SupportedLocales } from '../i18n'
 
 const schema = {
   properties: {
@@ -111,8 +116,19 @@ export default defineComponent({
     // return properties - these get merged with data() below
     return { examples, example }
   },
+  props: {
+    locale: {
+      required: false,
+      type: String,
+      default: 'en'
+    }
+  },
   data () {
     return {
+      i18n: {
+        locale: this.locale,
+        translate: createTranslator(this.locale as SupportedLocales)
+      } as JsonFormsI18nState,
       // freeze renderers for performance gains
       renderers: Object.freeze(vuetifyRenderers),
       data: {
@@ -124,6 +140,14 @@ export default defineComponent({
       },
       schema,
       uischema
+    }
+  },
+
+  watch: {
+    locale (newLocale: SupportedLocales): void {
+      console.log('LOCALE SWITCH', newLocale)
+      this.i18n.locale = newLocale
+      this.i18n.translate = createTranslator(newLocale)
     }
   },
   methods: {

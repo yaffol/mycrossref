@@ -24,7 +24,7 @@
               <v-card-text>
                 <v-row>
                   <v-col cols="12">
-                    <component v-bind:is="currentComponent"></component>
+                    <component v-bind:is="currentComponent" v-bind:locale="this.$vuetify.lang.current"></component>
                   </v-col>
                 </v-row>
               </v-card-text>
