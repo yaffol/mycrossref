@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import { Lang, LangTranslator } from 'vuetify/types/services/lang'
 
 const en = {
   name: {
@@ -87,7 +88,14 @@ const de = {
 export type SupportedLocales = 'en' | 'de'
 
 export const createTranslator =
-  (locale: SupportedLocales) =>
+  (locale: SupportedLocales, lang: Lang) =>
     (key: string, defaultMessage: string | undefined): string | undefined => {
-      return get(locale === 'en' ? en : de, key) ?? defaultMessage
+      if (!key) {
+        console.warn('KEY WAS UNDEFINED')
+        return ''
+      }
+      console.log('KEY:', key)
+      const trans: string = lang.t(key)
+      console.log('TRANS:', trans)
+      return trans || defaultMessage
     }
