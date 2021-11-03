@@ -1,5 +1,4 @@
 import get from 'lodash/get'
-import { Lang, LangTranslator } from 'vuetify/types/services/lang'
 
 const en = {
   name: {
@@ -37,8 +36,28 @@ const en = {
   'postal-code': {
     label: 'Postal Code'
   },
+  form: {
+    grants: {
+      depositor: {
+        depositor_name: {
+          error: {
+            pattern: 'Please enter a name that matches a US telephone number'
+          }
+        },
+        email_address: {
+          error: {
+            customDONOTUSE: 'An email address is required to complete this form, you know',
+            format: 'This is not an email address'
+          }
+        },
+        error: {
+          required: 'You really must fill in this field in the Depositor section'
+        }
+      }
+    }
+  },
   error: {
-    required: 'field is required'
+    required: 'This globally scoped message tells you this field is required'
   }
 }
 
@@ -79,6 +98,24 @@ const de = {
   'postal-code': {
     label: 'Postleitzahl'
   },
+  form: {
+    grants: {
+      depositor: {
+        depositor_name: {
+          error: {
+            required: 'Hier ist Feldasbchribesaggen uber Depositor Name'
+          }
+        },
+        email_address: {
+          error: {
+            custom1: 'Schade falschgemmacksammen',
+            format: 'Hier ist keine Email',
+            required: 'Bitte ihren Email hier schriben'
+          }
+        }
+      }
+    }
+  },
   error: {
     required: 'Pflichtfeld'
   },
@@ -88,14 +125,9 @@ const de = {
 export type SupportedLocales = 'en' | 'de'
 
 export const createTranslator =
-  (locale: SupportedLocales, lang: Lang) =>
+  (locale: SupportedLocales) =>
     (key: string, defaultMessage: string | undefined): string | undefined => {
-      if (!key) {
-        console.warn('KEY WAS UNDEFINED')
-        return ''
-      }
-      console.log('KEY:', key)
-      const trans: string = lang.t(key)
-      console.log('TRANS:', trans)
-      return trans || defaultMessage
+      console.log('KEY IN TRANSLATOR:', key)
+      console.log('DEFAULT MESSAGE IN TRANSLATOR:', defaultMessage)
+      return get(locale === 'en' ? en : de, key) ?? defaultMessage
     }
