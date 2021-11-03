@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@jsonforms/vue2-vuetify": {
-      "signature": "4e44e1405a9f750227ab930f17353454",
+      "signature": "b325511f65a71fe10ab6cc8fee5194da",
       "file": true
     }
   }

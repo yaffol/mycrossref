@@ -45,20 +45,25 @@
   },
   "properties": {
     "depositor": {
+      "i18n": "form.grants.depositor",
       "title": "Depositor Information",
       "description": "This information allows us to update you on the progress of the deposit",
       "type": "object",
+      "required": ["depositor_name", "email_address"],
       "properties": {
         "depositor_name": {
           "title": "Depositor name",
           "description": "your name",
-          "type": "string"
+          "type": "string",
+          "pattern":  "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$",
+          "i18n": "form.grants.depositor.depositor_name"
         },
         "email_address": {
           "type": "string",
           "title": "Email address",
           "description": "email address to send errors to",
-          "format": "email"
+          "format": "email",
+          "i18n": "form.grants.depositor.email_address"
         }
       }
     },
@@ -69,6 +74,7 @@
       "items": {
         "title": "",
         "type": "object",
+        "required": ["award-number"],
         "properties": {
           "award-number": {
             "title": "Award number",
