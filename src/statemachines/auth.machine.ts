@@ -15,7 +15,7 @@ import {
 } from 'xstate-vue2'
 import { useInspector } from '@/statemachines/utils'
 
-import { fetchLoginState } from '@/services/fetchers'
+import { fetchLoginState } from '@/utils/fetchers'
 
 export interface userProvidedCredentials {
   username: string;

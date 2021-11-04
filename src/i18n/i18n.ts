@@ -1,6 +1,7 @@
 import get from 'lodash/get'
+import { en, de } from '@/locales/index'
 
-const en = {
+const enLocal = {
   name: {
     label: 'Name',
     description: 'The name of the person'
@@ -61,7 +62,7 @@ const en = {
   }
 }
 
-const de = {
+const deLocal = {
   name: {
     label: 'Name',
     description: 'Der Name der Person'

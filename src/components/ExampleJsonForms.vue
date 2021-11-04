@@ -127,7 +127,7 @@ export default defineComponent({
     return {
       i18n: {
         locale: this.locale,
-        translate: createTranslator(this.locale as SupportedLocales, this.$vuetify.lang)
+        translate: createTranslator(this.locale as SupportedLocales)
       } as JsonFormsI18nState,
       // freeze renderers for performance gains
       renderers: Object.freeze(vuetifyRenderers),
@@ -147,7 +147,7 @@ export default defineComponent({
     locale (newLocale: SupportedLocales): void {
       console.log('LOCALE SWITCH', newLocale)
       this.i18n.locale = newLocale
-      this.i18n.translate = createTranslator(newLocale, this.$vuetify.lang)
+      this.i18n.translate = createTranslator(newLocale)
     }
   },
   methods: {

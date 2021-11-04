@@ -1,0 +1,4 @@
+{
+  "form.grants.depositor.depositor_name.label": "Depositor name label",
+  "form.grants.depositor.depositor_name.error.pattern": "Please enter a US phone number"
+}
