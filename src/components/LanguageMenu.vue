@@ -37,6 +37,7 @@ export default defineComponent({
      * @param v The locale to switch to
      */
     changeLocale: function (v: string) {
+      console.log('VUETIFY LOCALE CHANGE:', v)
       this.$vuetify.lang.current = v
     }
   },
@@ -51,11 +52,7 @@ export default defineComponent({
       },
       {
         locale: 'de',
-        title: 'German'
-      },
-      {
-        locale: 'fr',
-        title: 'Français'
+        title: 'Deutsch'
       },
       {
         locale: 'es',
