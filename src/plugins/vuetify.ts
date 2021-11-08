@@ -2,10 +2,13 @@ import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
 import en from '@/locales/vuetify/en'
 import es from '@/locales/vuetify/es'
-import de from '@/locales/vuetify/de'
+import fr from '@/locales/vuetify/fr'
 import colors from 'vuetify/lib/util/colors'
+import { createTranslator, SupportedLocales } from '../i18n'
 
 Vue.use(Vuetify)
+
+const defaultLocale = 'en'
 
 export default new Vuetify({
   theme: {
@@ -23,7 +26,7 @@ export default new Vuetify({
     }
   },
   lang: {
-    locales: { en, de, es },
+    t: (key, ...params) => createTranslator(defaultLocale as SupportedLocales),
     current: 'en'
   }
 })

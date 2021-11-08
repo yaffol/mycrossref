@@ -73,6 +73,7 @@ export default defineComponent({
   },
 
   watch: {
+    // passed in a a prop from App.vue, bound to the value of this.$vuetify.lang.current
     locale (newLocale: SupportedLocales): void {
       console.log('LOCALE SWITCH', newLocale)
       this.i18n.locale = newLocale
