@@ -5,33 +5,10 @@
     <nav-drawer v-model="drawer"/>
     <header-bar></header-bar>
     <v-main>
-      <toolbar v-bind:drawer="drawer" v-on:update:drawer="drawer = !drawer" title="Page Title"/>
+      <toolbar v-bind:drawer="drawer" v-on:update:drawer="drawer = !drawer" title="Content Registration"/>
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
-        <v-row class="mt-1">
-          <v-col cols="12">
-            <v-card>
-              <v-card-text class="pa-6">
-                <v-btn color="primary" @click="currentComponent='ExampleJsonForms'">JSON Forms example</v-btn>
-                <v-btn class="ml-4" outlined color="primary" @click="currentComponent='ExampleComponent'">Toggle component exmaple</v-btn>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-card elevation="0">
-              <v-card-text>
-                <v-row>
-                  <v-col cols="12">
-                    <component v-bind:is="currentComponent" v-bind:locale="this.$vuetify.lang.current"></component>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-
+        <component v-bind:is="currentComponent" v-bind:locale="this.$vuetify.lang.current"></component>
         <!--        <theme />-->
         <!-- If using vue-router -->
       </v-container>
@@ -54,7 +31,7 @@ import { provideSearchService } from '@/statemachines/search.machine'
 import { useActor } from 'xstate-vue2'
 import colors from 'vuetify/lib/util/colors'
 import ExampleComponent from '@/components/ExampleComponent.vue'
-import ExampleJsonForms from '@/components/ExampleJsonForms.vue'
+import ExampleJsonForms from '@/components/GrantRegistrationForm.vue'
 import { provideToggleService } from '@/statemachines/example.machine'
 
 export default defineComponent({

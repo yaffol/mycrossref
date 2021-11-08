@@ -1,4 +1,8 @@
 {
-  "form.grants.depositor.depositor_name.label": "Depositor name label",
-  "form.grants.depositor.depositor_name.error.pattern": "Please enter a US phone number"
+  "content_registration.form.grant_registration.depositor.depositor_name.label": "Depositor name",
+  "content_registration.form.grant_registration.depositor.email_address.description": "Email address to send errors to",
+  "content_registration.form.grant_registration.depositor.email_address.error.format": "Please enter an email address",
+  "content_registration.form.grant_registration.grants.award_start_date.error.format": "Please enter a date",
+  "content_registration.form.grant_registration.grants.doi_data.doi.error.pattern": "Please enter a DOI",
+  "content_registration.form.grant_registration.grants.doi_data.resource.error.format": "Please enter a URI"
 }

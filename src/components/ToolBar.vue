@@ -1,7 +1,7 @@
 <template>
   <v-toolbar dense dark :class="toolbarColour">
     <v-app-bar-nav-icon @click="sendUpdateDrawer"></v-app-bar-nav-icon>
-    <v-toolbar-title>{{ title }}</v-toolbar-title>
+    <v-toolbar-title class="text-uppercase">{{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <search-button/>
   </v-toolbar>

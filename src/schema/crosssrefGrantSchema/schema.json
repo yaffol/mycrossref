@@ -45,7 +45,7 @@
   },
   "properties": {
     "depositor": {
-      "i18n": "form.grants.depositor",
+      "i18n": "content_registration.form.grant_registration.depositor",
       "title": "Depositor Information",
       "description": "This information allows us to update you on the progress of the deposit",
       "type": "object",
@@ -55,15 +55,14 @@
           "title": "Depositor name",
           "description": "your name",
           "type": "string",
-          "pattern":  "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$",
-          "i18n": "form.grants.depositor.depositor_name"
+          "i18n": "content_registration.form.grant_registration.depositor.depositor_name"
         },
         "email_address": {
           "type": "string",
           "title": "Email address",
           "description": "email address to send errors to",
           "format": "email",
-          "i18n": "form.grants.depositor.email_address"
+          "i18n": "content_registration.form.grant_registration.depositor.email_address"
         }
       }
     },
@@ -72,29 +71,36 @@
       "type": "array",
       "minItems": 1,
       "items": {
+        "i18n": "content_registration.form.grant_registration.grants",
         "title": "",
         "type": "object",
         "required": ["award-number"],
         "properties": {
           "award-number": {
+            "i18n": "content_registration.form.grant_registration.award_number",
             "title": "Award number",
             "type": "string"
           },
           "award-start-date": {
+            "i18n": "content_registration.form.grant_registration.grants.award_start_date",
             "title": "Award start date",
             "type": "string",
             "format": "date"
           },
           "doi_data": {
+            "i18n": "content_registration.form.grant_registration.grants.doi_data",
             "title": "DOI Resolution",
             "type": "object",
             "properties": {
               "doi": {
+                "i18n": "content_registration.form.grant_registration.grants.doi_data.doi",
                 "title": "DOI",
                 "type": "string",
+                "pattern": "^10\\.\\d{4,9}/[-._;()/:A-Z0-9^\\s]+",
                 "description": "The DOI to assign to this grant"
               },
               "resource": {
+                "i18n": "content_registration.form.grant_registration.grants.doi_data.resource",
                 "title": "Resource",
                 "description": "The URL the DOI should point to",
                 "type": "string",
